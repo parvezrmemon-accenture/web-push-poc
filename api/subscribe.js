@@ -1,24 +1,13 @@
-import webpush from "web-push";
-
-let subscriptions = global.subscriptions || [];
-
-if (!global.subscriptions) {
-  global.subscriptions = subscriptions;
-}
+import { saveSubscription } from "../lib/db";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
-  const { subscription, userId } = req.body;
+  const { subscription } = req.body;
+  if (!subscription?.endpoint)
+    return res.status(400).json({ error: "Invalid subscription" });
 
-  // avoid duplicates
-  const exists = subscriptions.find(
-    (s) => s.endpoint === subscription.endpoint
-  );
-  if (!exists) {
-    subscriptions.push(subscription);
-    console.log(`Added subscription for user ${userId}`);
-  }
-
-  return res.status(200).json({ success: true });
+  saveSubscription(subscription);
+  console.log("Subscription saved:", subscription.endpoint);
+  res.status(200).json({ success: true });
 }

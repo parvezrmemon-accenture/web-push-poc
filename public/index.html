@@ -23,23 +23,6 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
   <title>React App</title>
-  <!-- OneSignal Web SDK v16 -->
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-  <script>
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
-    OneSignalDeferred.push(async function (OneSignal) {
-      await OneSignal.init({
-        appId: "ab2ad7f3-98b3-4437-90a5-4404e36b253d",
-        safari_web_id: "web.onesignal.auto.2b30b273-8f48-4327-8bae-bed77c33071b",
-        notifyButton: {
-          enable: true,
-        },
-        serviceWorkerPath: "/push/onesignal/OneSignalSDKWorker.js",
-        allowLocalhostAsSecureOrigin: true,
-      });
-    });
-  </script>
-
 </head>
 
 <body>

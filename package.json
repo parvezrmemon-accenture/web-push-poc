@@ -1,5 +1,5 @@
 {
-  "name": "ftk-pwa",
+  "name": "web-push-poc",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

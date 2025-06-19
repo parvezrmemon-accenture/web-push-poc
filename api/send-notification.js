@@ -1,10 +1,5 @@
 import webpush from "web-push";
-
-let subscriptions = global.subscriptions || [];
-
-if (!global.subscriptions) {
-  global.subscriptions = subscriptions;
-}
+import { getAllSubscriptions } from "../lib/db";
 
 webpush.setVapidDetails(
   "mailto:test@example.com",
@@ -16,16 +11,26 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
   const payload = JSON.stringify({
-    title: "Hello from Vercel!",
-    body: "You received this push notification 🎉",
+    title: "🎉 Hello from Vercel!",
+    body: "You just received a push notification",
   });
 
-  const results = await Promise.allSettled(
-    subscriptions.map((sub) => webpush.sendNotification(sub, payload))
-  );
+  const subscriptions = getAllSubscriptions();
+  const results = [];
 
-  const failed = results.filter((r) => r.status === "rejected").length;
-  console.log(`Sent notifications. Failed: ${failed}`);
+  for (const sub of subscriptions) {
+    try {
+      await webpush.sendNotification(sub, payload);
+      results.push({ endpoint: sub.endpoint, status: "sent" });
+    } catch (err) {
+      results.push({
+        endpoint: sub.endpoint,
+        status: "failed",
+        error: err.message,
+      });
+      console.error("Push failed for:", sub.endpoint, err.message);
+    }
+  }
 
-  return res.status(200).json({ success: true, failed });
+  res.status(200).json({ results });
 }

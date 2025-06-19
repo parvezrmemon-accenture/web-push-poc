@@ -17,27 +17,45 @@ const PushNotification = () => {
   };
 
   const handleSubscribe = async () => {
+    if (Notification.permission === "denied") {
+      alert(
+        "You have blocked notifications. Please enable them in browser settings."
+      );
+      return;
+    }
+
     const registration = await navigator.serviceWorker.ready;
 
-    const subscription = await registration.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(
-        "BDxAaa9fKmRrH2lqWovsd_Izbfwi4148iPh19sVSt84Vys4CqsWkaibRxgAKgTlJNRwjvAw6SX8ceyTmrc3Er7Q"
-      ),
-    });
+    if (!registration.pushManager) {
+      console.error("Push manager not supported.");
+      return;
+    }
 
-    console.log("Subscribed:", subscription);
+    try {
+      const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(
+          "BDxAaa9fKmRrH2lqWovsd_Izbfwi4148iPh19sVSt84Vys4CqsWkaibRxgAKgTlJNRwjvAw6SX8ceyTmrc3Er7Q"
+        ),
+      });
 
-    await fetch("/api/subscribe", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: "user123",
-        subscription,
-      }),
-    });
+      console.log("Subscribed:", subscription);
 
-    setSubscribed(true);
+      await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: "user123",
+          subscription,
+        }),
+      });
+
+      setSubscribed(true);
+      alert("✅ Subscribed successfully!");
+    } catch (err) {
+      console.error("Subscription error:", err);
+      alert("⚠️ Failed to subscribe.");
+    }
   };
 
   const handleUnsubscribe = async () => {
@@ -48,7 +66,6 @@ const PushNotification = () => {
       await subscription.unsubscribe();
       console.log("Unsubscribed from push notifications");
 
-      // Optional: Inform your backend to remove subscription
       await fetch("/api/unsubscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -56,6 +73,7 @@ const PushNotification = () => {
       });
 
       setSubscribed(false);
+      alert("🚫 Unsubscribed successfully.");
     }
   };
 

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Button, Stack } from "@mui/material";
+import { Button } from "@mui/material";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-const PushNotification = () => {
+const PushNotification = ({ userId }) => {
   const [subscribed, setSubscribed] = useState(false);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const PushNotification = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: "user123",
+          userId,
           subscription,
         }),
       });
@@ -70,7 +70,7 @@ const PushNotification = () => {
       await fetch("/api/unsubscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: "user123", endpoint }),
+        body: JSON.stringify({ userId, endpoint }),
       });
 
       setSubscribed(false);
@@ -79,28 +79,14 @@ const PushNotification = () => {
   };
 
   return (
-    <Stack spacing={2} alignItems="center">
-      <Button
-        variant="contained"
-        onClick={subscribed ? handleUnsubscribe : handleSubscribe}
-        startIcon={subscribed ? <CancelIcon /> : <NotificationsActiveIcon />}
-        sx={{
-          backgroundColor: subscribed ? "#ffffff" : "#ffffff",
-          color: subscribed ? "#d32f2f" : "#1976d2",
-          px: 2.5,
-          py: 1.2,
-          fontWeight: "bold",
-          borderRadius: 2,
-          textTransform: "none",
-          boxShadow: 1,
-          "&:hover": {
-            backgroundColor: subscribed ? "#f9e0e0" : "#e0e0e0",
-          },
-        }}
-      >
-        {subscribed ? "Unsubscribe" : "Subscribe to Notifications"}
-      </Button>
-    </Stack>
+    <Button
+      variant="outlined"
+      color="inherit"
+      onClick={subscribed ? handleUnsubscribe : handleSubscribe}
+      startIcon={subscribed ? <CancelIcon /> : <NotificationsActiveIcon />}
+    >
+      {subscribed ? "Unsubscribe" : "Subscribe to Notifications"}
+    </Button>
   );
 };
 

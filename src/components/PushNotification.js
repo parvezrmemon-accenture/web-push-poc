@@ -63,13 +63,14 @@ const PushNotification = () => {
     const subscription = await registration.pushManager.getSubscription();
 
     if (subscription) {
+      const endpoint = subscription.endpoint; // <-- Extracting the endpoint - device specific token
       await subscription.unsubscribe();
       console.log("Unsubscribed from push notifications");
 
       await fetch("/api/unsubscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: "user123" }),
+        body: JSON.stringify({ userId: "user123", endpoint }),
       });
 
       setSubscribed(false);

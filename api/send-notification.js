@@ -1,36 +1,36 @@
-import webpush from "web-push";
 import { getAllSubscriptions } from "../lib/db";
+import webpush from "web-push";
 
 webpush.setVapidDetails(
-  "mailto:test@example.com",
+  "mailto:you@example.com",
   process.env.VAPID_PUBLIC_KEY,
   process.env.VAPID_PRIVATE_KEY
 );
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).end();
-
   const payload = JSON.stringify({
-    title: "🎉 Hello from Vercel!",
-    body: "You just received a push notification",
+    title: "🚀 Hello from MongoDB!",
+    body: "Push notification delivered ✅",
   });
 
-  const subscriptions = getAllSubscriptions();
-  const results = [];
+  try {
+    const subs = await getAllSubscriptions();
 
-  for (const sub of subscriptions) {
-    try {
-      await webpush.sendNotification(sub, payload);
-      results.push({ endpoint: sub.endpoint, status: "sent" });
-    } catch (err) {
-      results.push({
-        endpoint: sub.endpoint,
-        status: "failed",
-        error: err.message,
-      });
-      console.error("Push failed for:", sub.endpoint, err.message);
+    if (!subs.length) {
+      return res.status(200).json({ message: "No subscribers" });
     }
-  }
 
-  res.status(200).json({ results });
+    await Promise.all(
+      subs.map((sub) =>
+        webpush.sendNotification(sub, payload).catch((err) => {
+          console.error("❌ Push failed:", err);
+        })
+      )
+    );
+
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error("❌ Notification send error:", err);
+    res.status(500).json({ error: "Push failed" });
+  }
 }

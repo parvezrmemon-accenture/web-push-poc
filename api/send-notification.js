@@ -9,8 +9,9 @@ webpush.setVapidDetails(
 
 export default async function handler(req, res) {
   const payload = JSON.stringify({
-    title: "🚀 Hello from MongoDB!",
-    body: "Push notification delivered ✅",
+    title: "🚀 Hello!",
+    body: "Click on this to open chat",
+    url: "/chat", // this will be used on click
   });
 
   try {

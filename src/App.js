@@ -5,13 +5,14 @@ import AppRoutes from "./routes/AppRoutes";
 import FooterNav from "./components/FooterNav";
 import PushNotification from "./components/PushNotification";
 import AuthForm from "./components/AuthForm";
+import { getCurrentUser, logoutUser } from "./utils/auth";
 
 function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem("user");
-    if (saved) setUser(JSON.parse(saved));
+    const saved = getCurrentUser();
+    if (saved) setUser(saved);
   }, []);
 
   return (
@@ -32,10 +33,7 @@ function App() {
               <Button
                 variant="outlined"
                 color="inherit"
-                onClick={() => {
-                  localStorage.removeItem("user");
-                  window.location.reload();
-                }}
+                onClick={() => logoutUser()}
               >
                 Logout
               </Button>

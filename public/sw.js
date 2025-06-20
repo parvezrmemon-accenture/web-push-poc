@@ -19,5 +19,31 @@ self.addEventListener("push", (event) => {
 self.addEventListener("notificationclick", function (event) {
   event.notification.close();
 
-  event.waitUntil(clients.openWindow("/"));
+  const urlToOpen = event.notification?.data?.url;
+
+  // Fallback to root if no URL is provided
+  const fallbackUrl = "/";
+
+  event.waitUntil(
+    clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((clientList) => {
+        const isInternal =
+          urlToOpen?.startsWith("/") ||
+          urlToOpen?.startsWith(self.location.origin);
+        const targetUrl = urlToOpen || fallbackUrl;
+
+        // If internal URL, try to focus an open tab
+        if (isInternal) {
+          for (const client of clientList) {
+            if (client.url.includes(targetUrl) && "focus" in client) {
+              return client.focus();
+            }
+          }
+        }
+
+        // Always open a new window if no match found or it's an external link
+        return clients.openWindow(targetUrl);
+      })
+  );
 });

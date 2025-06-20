@@ -1,4 +1,4 @@
-import { getAllSubscriptions } from "../lib/db";
+import { getAllSubscriptions, getSubscriptionsByUserIds } from "../lib/db";
 import webpush from "web-push";
 
 webpush.setVapidDetails(
@@ -8,18 +8,26 @@ webpush.setVapidDetails(
 );
 
 export default async function handler(req, res) {
-  const payload = JSON.stringify({
-    title: "🚀 Hello!",
-    body: "Click on this to open chat",
-    url: "/chat", // this will be used on click
-  });
+  if (req.method !== "POST") return res.status(405).end();
+
+  const { userIds, title, body } = req.body;
+
+  const fallbackTitle = "📢 New Notification";
+  const fallbackBody = "You have a new update!";
 
   try {
-    const subs = await getAllSubscriptions();
+    const subs = userIds
+      ? await getSubscriptionsByUserIds(userIds)
+      : await getAllSubscriptions();
 
     if (!subs.length) {
       return res.status(200).json({ message: "No subscribers" });
     }
+
+    const payload = JSON.stringify({
+      title: title || fallbackTitle,
+      body: body || fallbackBody,
+    });
 
     await Promise.all(
       subs.map((sub) =>
@@ -30,8 +38,8 @@ export default async function handler(req, res) {
     );
 
     res.status(200).json({ success: true });
-  } catch (err) {
-    console.error("❌ Notification send error:", err);
-    res.status(500).json({ error: "Push failed" });
+  } catch (error) {
+    console.error("Push send error", error);
+    res.status(500).json({ error: "Failed to send push" });
   }
 }

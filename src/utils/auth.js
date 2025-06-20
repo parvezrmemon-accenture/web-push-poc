@@ -26,3 +26,8 @@ export function logoutUser(redirect = "/login") {
     window.location.href = redirect;
   }
 }
+
+// Check is user is Admin
+export function isAdmin(user) {
+  return user && user.is_admin === true;
+}

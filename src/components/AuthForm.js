@@ -9,9 +9,11 @@ import {
   Alert,
   Stack,
 } from "@mui/material";
-import { setCurrentUser } from "../utils/auth";
+import { isAdmin, setCurrentUser } from "../utils/auth";
+import { useNavigate } from "react-router-dom";
 
 const AuthForm = ({ onLogin }) => {
+  const navigate = useNavigate();
   const [tab, setTab] = useState(0); // 0 = Login, 1 = Register
   const [form, setForm] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
@@ -39,6 +41,14 @@ const AuthForm = ({ onLogin }) => {
           // login
           setCurrentUser(data.user);
           onLogin(data.user);
+          const user = data.user;
+          if (user) {
+            if (isAdmin(user)) {
+              navigate("/admin");
+            } else {
+              navigate("/dashboard");
+            }
+          }
         } else {
           // register success, switch to login tab
           setTab(0);

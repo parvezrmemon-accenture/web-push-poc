@@ -85,7 +85,7 @@ const PushNotification = ({ userId }) => {
       onClick={subscribed ? handleUnsubscribe : handleSubscribe}
       startIcon={subscribed ? <CancelIcon /> : <NotificationsActiveIcon />}
     >
-      {subscribed ? "Unsubscribe" : "Subscribe to Notifications"}
+      {subscribed ? "Unsubscribe" : "Subscribe"}
     </Button>
   );
 };

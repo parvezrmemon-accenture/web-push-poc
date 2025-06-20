@@ -4,6 +4,8 @@ import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import ChatIcon from "@mui/icons-material/Chat";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import { getCurrentUser, isAdmin } from "../utils/auth";
 
 const FooterNav = () => {
   const navigate = useNavigate();
@@ -13,12 +15,14 @@ const FooterNav = () => {
     "/": "home",
     "/calendar": "calendar",
     "/chat": "chat",
+    "/admin": "notifications",
   };
 
   const valueToPath = {
     home: "/",
     calendar: "/calendar",
     chat: "/chat",
+    notifications: "/admin",
   };
 
   const currentValue = pathToValue[location.pathname] || "home";
@@ -37,6 +41,13 @@ const FooterNav = () => {
           icon={<CalendarTodayIcon />}
         />
         <BottomNavigationAction label="Chat" value="chat" icon={<ChatIcon />} />
+        {isAdmin(getCurrentUser()) && (
+          <BottomNavigationAction
+            label="Notifications"
+            value="notifications"
+            icon={<NotificationsIcon />}
+          />
+        )}
       </BottomNavigation>
     </Paper>
   );

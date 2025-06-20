@@ -9,6 +9,7 @@ import {
   Alert,
   Stack,
 } from "@mui/material";
+import { setCurrentUser } from "../utils/auth";
 
 const AuthForm = ({ onLogin }) => {
   const [tab, setTab] = useState(0); // 0 = Login, 1 = Register
@@ -36,7 +37,7 @@ const AuthForm = ({ onLogin }) => {
       if (data.success) {
         if (tab === 0) {
           // login
-          localStorage.setItem("user", JSON.stringify(data.user));
+          setCurrentUser(data.user);
           onLogin(data.user);
         } else {
           // register success, switch to login tab

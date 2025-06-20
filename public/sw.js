@@ -9,8 +9,11 @@ self.addEventListener("push", (event) => {
   const title = data.title || "Push Notification";
   const options = {
     body: data.body || "You have a new message.",
-    icon: "/logo192.png",
-    badge: "/logo192.png",
+    icon: data?.icon || "/logo192.png",
+    badge: data?.badge || "/logo192.png",
+    data: {
+      url: data.url || "/",
+    },
   };
 
   event.waitUntil(self.registration.showNotification(title, options));

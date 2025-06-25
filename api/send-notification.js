@@ -10,10 +10,11 @@ webpush.setVapidDetails(
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
-  const { userIds, title, body } = req.body;
+  const { userIds, title, body, url } = req.body;
 
   const fallbackTitle = "📢 New Notification";
   const fallbackBody = "You have a new update!";
+  const fallbackUrl = "/";
 
   try {
     const subs = userIds
@@ -27,6 +28,7 @@ export default async function handler(req, res) {
     const payload = JSON.stringify({
       title: title || fallbackTitle,
       body: body || fallbackBody,
+      url: url || fallbackUrl,
     });
 
     await Promise.all(

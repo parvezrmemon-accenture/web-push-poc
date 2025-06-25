@@ -22,6 +22,7 @@ export default function AdminPanel() {
   const [broadcast, setBroadcast] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [url, setUrl] = useState("");
   const [snackbar, setSnackbar] = useState(false);
 
   useEffect(() => {
@@ -34,6 +35,7 @@ export default function AdminPanel() {
     const payload = {
       title,
       body,
+      url,
       ...(broadcast ? {} : { userIds: selectedUsers }),
     };
 
@@ -46,6 +48,7 @@ export default function AdminPanel() {
     setSnackbar(true);
     setTitle("");
     setBody("");
+    setUrl("");
     if (!broadcast) setSelectedUsers([]);
   };
 
@@ -108,6 +111,15 @@ export default function AdminPanel() {
         label="Message"
         value={body}
         onChange={(e) => setBody(e.target.value)}
+        sx={{ mb: 2 }}
+      />
+      <TextField
+        fullWidth
+        multiline
+        rows={3}
+        label="URL"
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
         sx={{ mb: 2 }}
       />
 

@@ -23,6 +23,6 @@ export default async function handler(req, res) {
     res.status(200).json({ success: true, user: safeUser });
   } catch (err) {
     console.error("❌ Server Error:", err);
-    res.status(500).json({ error: "Failed to save subscription" });
+    res.status(500).json({ error: "Failed to login" });
   }
 }

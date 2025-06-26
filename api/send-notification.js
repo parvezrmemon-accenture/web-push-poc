@@ -1,4 +1,8 @@
-import { getAllSubscriptions, getSubscriptionsByUserIds } from "../lib/db";
+import {
+  getAllSubscriptions,
+  getSubscriptionsByUserIds,
+  saveNotification,
+} from "../lib/db";
 import webpush from "web-push";
 
 webpush.setVapidDetails(
@@ -10,16 +14,18 @@ webpush.setVapidDetails(
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
-  const { userIds, title, body, url } = req.body;
+  const { userIds, title, body, url, adminId } = req.body;
 
   const fallbackTitle = "📢 New Notification";
   const fallbackBody = "You have a new update!";
   const fallbackUrl = "/";
 
   try {
-    const subs = userIds
-      ? await getSubscriptionsByUserIds(userIds)
-      : await getAllSubscriptions();
+    const isBroadcast = userIds ? false : true;
+
+    const subs = isBroadcast
+      ? await getAllSubscriptions()
+      : await getSubscriptionsByUserIds(userIds);
 
     if (!subs.length) {
       return res.status(200).json({ message: "No subscribers" });
@@ -38,6 +44,15 @@ export default async function handler(req, res) {
         })
       )
     );
+
+    await saveNotification({
+      title,
+      body,
+      url,
+      isBroadcast,
+      sentTo: userIds,
+      createdBy: adminId,
+    });
 
     res.status(200).json({ success: true });
   } catch (error) {

@@ -5,6 +5,7 @@ import Calendar from "../pages/Calendar";
 import Chat from "../pages/Chat";
 import AdminRoute from "./AdminRoute";
 import AdminPanel from "../pages/AdminPanel";
+import NotificationsPage from "../pages/NotificationsPage";
 
 const AppRoutes = () => {
   return (
@@ -12,6 +13,7 @@ const AppRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/calendar" element={<Calendar />} />
       <Route path="/chat" element={<Chat />} />
+      <Route path="/notifications" element={<NotificationsPage />} />
       <Route path="*" element={<Home />} />
       <Route
         path="/admin"

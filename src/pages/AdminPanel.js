@@ -15,6 +15,7 @@ import {
   FormControlLabel,
   Switch,
 } from "@mui/material";
+import { getCurrentUser } from "../utils/auth";
 
 export default function AdminPanel() {
   const [users, setUsers] = useState([]);
@@ -24,6 +25,9 @@ export default function AdminPanel() {
   const [body, setBody] = useState("");
   const [url, setUrl] = useState("");
   const [snackbar, setSnackbar] = useState(false);
+
+  const user = getCurrentUser();
+  const adminId = user._id;
 
   useEffect(() => {
     fetch("/api/users")
@@ -37,6 +41,7 @@ export default function AdminPanel() {
       body,
       url,
       ...(broadcast ? {} : { userIds: selectedUsers }),
+      adminId,
     };
 
     await fetch("/api/send-notification", {

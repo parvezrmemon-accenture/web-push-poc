@@ -6,11 +6,13 @@ import Chat from "../pages/Chat";
 import AdminRoute from "./AdminRoute";
 import AdminPanel from "../pages/AdminPanel";
 import NotificationsPage from "../pages/NotificationsPage";
+import DeepLinkDemo from "../pages/DeepLinkDemo";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/deeplink" element={<DeepLinkDemo />} />
       <Route path="/calendar" element={<Calendar />} />
       <Route path="/chat" element={<Chat />} />
       <Route path="/notifications" element={<NotificationsPage />} />

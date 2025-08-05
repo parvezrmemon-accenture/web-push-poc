@@ -27,7 +27,7 @@ function App() {
           <Header user={user} />
 
           {/* Main content */}
-          <Box sx={{ flexGrow: 1, p: 3, overflowY: "auto" }}>
+          <Box sx={{ flexGrow: 1, p: 2, overflowY: "auto" }}>
             <AppRoutes />
           </Box>
 

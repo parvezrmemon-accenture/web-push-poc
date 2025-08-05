@@ -12,7 +12,7 @@ const Header = ({ user }) => {
         {/* Left: Greeting and role */}
         <Box display="flex" alignItems="center" gap={2}>
           <Typography variant="h6" component="div">
-            Hi {user.username}
+            {/* Hi {user.username} */} Toolkit
           </Typography>
           {isAdmin(user) && (
             <AdminPanelSettingsIcon fontSize="small" titleAccess="Admin User" />

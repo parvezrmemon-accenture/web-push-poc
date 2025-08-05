@@ -58,7 +58,7 @@ export default function AdminPanel() {
   };
 
   return (
-    <Box sx={{ p: 4 }}>
+    <Box>
       <FormControlLabel
         control={
           <Switch

@@ -7,7 +7,7 @@ import {
   List,
   ListItem,
   ListItemText,
-  Paper,
+  Box,
   Link,
   Divider,
 } from "@mui/material";
@@ -79,10 +79,10 @@ const NotificationsPage = () => {
     );
 
   return (
-    <Paper elevation={3} sx={{ p: 2 }}>
-      <Typography variant="h5" gutterBottom>
+    <Box className="notification-section">
+      {/* <Typography variant="h5" gutterBottom>
         🛎️ Notifications
-      </Typography>
+      </Typography> */}
 
       <Tabs
         value={tab}
@@ -96,7 +96,7 @@ const NotificationsPage = () => {
       </Tabs>
 
       {tab === 0 ? renderList(broadcasts) : renderList(personals)}
-    </Paper>
+    </Box>
   );
 };
 

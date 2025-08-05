@@ -1,6 +1,6 @@
 {
-  "short_name": "PushPOC",
-  "name": "Web Push Notification POC",
+  "short_name": "Toolkit",
+  "name": "Toolkit",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",

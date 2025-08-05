@@ -6,6 +6,7 @@ import FooterNav from "./components/FooterNav";
 import AuthForm from "./components/AuthForm";
 import { getCurrentUser } from "./utils/auth";
 import Header from "./components/Header";
+import "./index.css";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -18,7 +19,10 @@ function App() {
   return (
     <Router>
       {user ? (
-        <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+        <Box
+          className="app-wrapper"
+          sx={{ display: "flex", flexDirection: "column", height: "100vh" }}
+        >
           {/* Header */}
           <Header user={user} />
 

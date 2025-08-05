@@ -7,7 +7,7 @@ import { isAdmin, logoutUser } from "../utils/auth";
 
 const Header = ({ user }) => {
   return (
-    <AppBar position="static" color="primary" sx={{ mb: 2 }}>
+    <AppBar position="static" className="header-section" sx={{ mb: 2 }}>
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* Left: Greeting and role */}
         <Box display="flex" alignItems="center" gap={2}>

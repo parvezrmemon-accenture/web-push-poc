@@ -79,7 +79,9 @@ const ChatPopup = ({ open, onClose, hotlineName = "Hotline" }) => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          background: "rgb(236 245 255)",
+          background: "rgb(247, 250, 253);",
+          color: "#003F67",
+          alignItems: "center",
         }}
       >
         Chat with {hotlineName}

@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <>
       <Typography variant="h6" component="div">
-        Hi {user.username}, Welcome to Home Page
+        Hi {user.username}, Welcome to Toolkit
       </Typography>
     </>
   );

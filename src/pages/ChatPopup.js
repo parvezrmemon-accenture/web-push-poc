@@ -82,7 +82,7 @@ const ChatPopup = ({ open, onClose, hotlineName = "Hotline" }) => {
           background: "rgb(236 245 255)",
         }}
       >
-        <Typography variant="h6">Chat with {hotlineName}</Typography>
+        Chat with {hotlineName}
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>

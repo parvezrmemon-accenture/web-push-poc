@@ -3,8 +3,8 @@ import { Typography } from "@mui/material";
 
 const Chat = () => {
   return (
-    <Typography variant="h4" sx={{ mt: 2 }}>
-      Chat with Technicians here
+    <Typography variant="h5" sx={{ mt: 2 }}>
+      Chat with Agents here
     </Typography>
   );
 };

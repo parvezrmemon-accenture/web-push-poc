@@ -51,7 +51,7 @@ const FooterNav = () => {
         />
         {isAdmin(getCurrentUser()) && (
           <BottomNavigationAction
-            label="Send Notification"
+            label="Send"
             value="admin"
             icon={<CampaignIcon />}
           />

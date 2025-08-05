@@ -59,10 +59,6 @@ export default function AdminPanel() {
 
   return (
     <Box sx={{ p: 4 }}>
-      <Typography variant="h5" mb={3}>
-        Admin Push Notification Panel
-      </Typography>
-
       <FormControlLabel
         control={
           <Switch

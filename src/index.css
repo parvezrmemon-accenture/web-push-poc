@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.app-wrapper {
+  background: rgb(247, 250, 253);
+  font-family: "Open Sans";
+}
+
+.header-section {
+  background-color: white !important;
+  color: rgb(0, 63, 103) !important;
+}

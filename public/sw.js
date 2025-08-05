@@ -9,8 +9,8 @@ self.addEventListener("push", (event) => {
   const title = data.title || "Push Notification";
   const options = {
     body: data.body || "You have a new message.",
-    icon: data?.icon || "/logo192.png",
-    badge: data?.badge || "/logo192.png",
+    icon: data?.icon || "/icons/custom-logo192.png",
+    badge: data?.badge || "/icons/custom-logo192.png",
     data: {
       url: data.url || "/",
     },
